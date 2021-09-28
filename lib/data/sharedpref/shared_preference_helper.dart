@@ -9,7 +9,17 @@ class SharedPreferenceHelper {
   final SharedPreferences _sharedPreference;
 
   // constructor
-  SharedPreferenceHelper(this._sharedPreference);
+  SharedPreferenceHelper(this._sharedPreference){
+    /// set default preference value here
+    /// DEBUG ONLY for Moqui framework test
+    /// NOTE: "am9obi5kb2U6bW9xdWk=" is the Base64 encoded String "john.doe:moqui"
+    /// Example: curl -X GET -H "Authorization: Basic am9obi5kb2U6bW9xdWk=" https://demo.moqui.org/rest/e1/examples/TEST2
+    /// to convert from user:pwd into Base64:
+    /// import 'dart:convert';
+    /// String authToken = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    var authToken = 'Basic am9obi5kb2U6bW9xdWk=';
+    saveAuthToken(authToken);
+  }
 
   // General Methods: ----------------------------------------------------------
   Future<String?> get authToken async {

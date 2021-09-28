@@ -1,5 +1,5 @@
-import 'package:boilerplate/constants/colors.dart';
-import 'package:boilerplate/constants/font_family.dart';
+import 'package:flutterapp/constants/colors.dart';
+import 'package:flutterapp/constants/font_family.dart';
 /**
  * Creating custom color palettes is part of creating a custom app. The idea is to create
  * your class of custom colors, in this case `CompanyColors` and then create a `ThemeData`

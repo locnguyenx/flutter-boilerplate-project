@@ -1,4 +1,14 @@
-import 'package:boilerplate/stores/error/error_store.dart';
+/**
+ * LocNX: this is Store for Login Screen only and required validators.
+ * This should be initiated and disposed in Login Form
+ *
+ * NOTE: Store is aka ViewModel of State Management Layer in the pattern
+ *    https://suragch.medium.com/flutter-state-management-for-minimalists-4c71a2f2f0c1
+ *    ViewModel contains page (UI) logic
+ */
+
+import 'package:flutterapp/di/components/service_locator.dart';
+import 'package:flutterapp/stores/stores.dart';
 import 'package:mobx/mobx.dart';
 import 'package:validators/validators.dart';
 
@@ -13,6 +23,9 @@ abstract class _FormStore with Store {
   // store for handling error messages
   final ErrorStore errorStore = ErrorStore();
 
+  final UserStore _userStore = getIt<UserStore>();
+  final AuthStore _authStore = getIt<AuthStore>();
+
   _FormStore() {
     _setupValidations();
   }
@@ -21,6 +34,9 @@ abstract class _FormStore with Store {
   late List<ReactionDisposer> _disposers;
 
   void _setupValidations() {
+    // refer to https://mobx.netlify.app/guides/cheat-sheet/, section Adding reactions
+    // Reactions react to changes in observables, and return disposer
+    // type = reaction: will start tracking only after the first change
     _disposers = [
       reaction((_) => userEmail, validateUserEmail),
       reaction((_) => password, validatePassword),
@@ -116,10 +132,22 @@ abstract class _FormStore with Store {
   @action
   Future login() async {
     loading = true;
-
-    Future.delayed(Duration(milliseconds: 2000)).then((future) {
+    // LocNX @TODO: must change this login to do real login
+    // debug
+    print('===== [FormStore] login() is called');
+    /// login using AuthStore
+    _authStore.signInWithEmailAndPassword(userEmail:userEmail,password:password).then((future) {
       loading = false;
       success = true;
+
+    /* login using UserStore
+    _userStore.userEmail = userEmail;
+    _userStore.login(password:password).then((future) {
+      loading = false;
+      success = true;
+      print('===== [FormStore] login()  success _userStore.isLoggedIn[${_userStore.isLoggedIn}]');
+
+     */
     }).catchError((e) {
       loading = false;
       success = false;
@@ -138,6 +166,7 @@ abstract class _FormStore with Store {
   @action
   Future logout() async {
     loading = true;
+    _userStore.logout();
   }
 
   // general methods:-----------------------------------------------------------

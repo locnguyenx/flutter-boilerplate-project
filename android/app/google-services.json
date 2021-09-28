@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1003427185278",
+    "project_id": "online-order-beta1",
+    "storage_bucket": "online-order-beta1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1003427185278:android:fa536d5e171aa198290e2f",
+        "android_client_info": {
+          "package_name": "com.locnguyenxuan.fluttertest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1003427185278-5oq10fkhn9aa47rpliu57k71127fvrp0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5rGOtrf1e5HWnHL341vdSjKNGPOVEK7I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1003427185278-5oq10fkhn9aa47rpliu57k71127fvrp0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

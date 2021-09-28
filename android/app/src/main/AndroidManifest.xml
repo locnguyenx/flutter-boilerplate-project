@@ -29,9 +29,14 @@
                  defined in @style/LaunchTheme). -->
             <!-- Specify that the launch screen should continue being displayed -->
             <!-- until Flutter renders its first frame. -->
+            <!-- locnx:
+            https://flutter.dev/docs/development/ui/advanced/splash-screen
+                => migrating-from-manifests
+                this declaration isn't required
             <meta-data
                 android:name="io.flutter.embedding.android.SplashScreenDrawable"
                 android:resource="@drawable/launch_background" />
+                -->
 
             <!-- Theme to apply as soon as Flutter begins rendering frames -->
             <meta-data

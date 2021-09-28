@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:boilerplate/ui/my_app.dart';
+import 'package:flutterapp/ui/my_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

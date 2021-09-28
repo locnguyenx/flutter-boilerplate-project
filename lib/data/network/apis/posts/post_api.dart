@@ -1,9 +1,18 @@
+/// locnx
+/// This is just an example how to create an API that use DioClient or RestClient to do networking handling
+/// To create a new API;
+/// 1. Create a Model class Abc (abc.dart) in path: lib/models/
+/// 2. (optional) create a ModelList of respected Model AbcList
+/// 3. Create a AbcApi class (abc_api.dart) in path: lib/data/network/apis/
+/// 4. Register new API in Service Locator at path lib/di/components/service_locator.dart
+/// 5. get the singleton of this API and use: getIt<AbcApi>()
+
 import 'dart:async';
 
-import 'package:boilerplate/data/network/constants/endpoints.dart';
-import 'package:boilerplate/data/network/dio_client.dart';
-import 'package:boilerplate/data/network/rest_client.dart';
-import 'package:boilerplate/models/post/post_list.dart';
+import 'package:flutterapp/data/network/constants/endpoints.dart';
+import 'package:flutterapp/data/network/dio_client.dart';
+import 'package:flutterapp/data/network/rest_client.dart';
+import 'package:flutterapp/models/post/post_list.dart';
 
 class PostApi {
   // dio instance

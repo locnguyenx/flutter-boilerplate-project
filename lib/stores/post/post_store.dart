@@ -1,7 +1,7 @@
-import 'package:boilerplate/data/repository.dart';
-import 'package:boilerplate/models/post/post_list.dart';
-import 'package:boilerplate/stores/error/error_store.dart';
-import 'package:boilerplate/utils/dio/dio_error_util.dart';
+import 'package:flutterapp/data/repository.dart';
+import 'package:flutterapp/models/post/post_list.dart';
+import 'package:flutterapp/stores/error/error_store.dart';
+import 'package:flutterapp/utils/dio/dio_error_util.dart';
 import 'package:mobx/mobx.dart';
 
 part 'post_store.g.dart';

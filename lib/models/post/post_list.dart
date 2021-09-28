@@ -1,4 +1,10 @@
-import 'package:boilerplate/models/post/post.dart';
+/**
+ * locnx
+ * This is just an example how to create an ModelList that get a list of data from a json map list returned by API (DocClient or RestClient)
+ * Note: must create the respected Model class first i.e Abc
+ */
+
+import 'package:flutterapp/models/post/post.dart';
 
 class PostList {
   final List<Post>? posts;

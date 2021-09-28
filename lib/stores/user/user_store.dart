@@ -1,4 +1,13 @@
-import 'package:boilerplate/stores/error/error_store.dart';
+/**
+ * LocNX
+ * Store is the place to manage App State (https://flutter.dev/docs/development/data-and-backend/state-mgmt/simple)
+ * NOTE: Store is aka Model of State Management Layer in the pattern
+ *    https://suragch.medium.com/flutter-state-management-for-minimalists-4c71a2f2f0c1
+ *    It's differenct from ViewModel that this Model doesn't contain page (UI) logic
+ *    Store in MobX: https://mobx.netlify.app/guides/stores
+ */
+
+import 'package:flutterapp/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../data/repository.dart';
@@ -18,8 +27,6 @@ abstract class _UserStore with Store {
   // store for handling error messages
   final ErrorStore errorStore = ErrorStore();
 
-  // bool to check if current user is logged in
-  bool isLoggedIn = false;
 
   // constructor:---------------------------------------------------------------
   _UserStore(Repository repository) : this._repository = repository {
@@ -29,7 +36,7 @@ abstract class _UserStore with Store {
 
     // checking if user is logged in
     repository.isLoggedIn.then((value) {
-      this.isLoggedIn = value;
+      _isLoggedIn = value;
     });
   }
 
@@ -48,6 +55,15 @@ abstract class _UserStore with Store {
 
   // store variables:-----------------------------------------------------------
   @observable
+  String userEmail = '';
+
+  String _tempPassword = '';
+
+  // bool to check if current user is logged in
+  @observable
+  bool _isLoggedIn = false;
+
+  @observable
   bool success = false;
 
   @observable
@@ -56,30 +72,35 @@ abstract class _UserStore with Store {
   @computed
   bool get isLoading => loginFuture.status == FutureStatus.pending;
 
+  // getters:-------------------------------------------------------------------
+  bool get isLoggedIn => _isLoggedIn;
+
   // actions:-------------------------------------------------------------------
   @action
-  Future login(String email, String password) async {
-
-    final future = _repository.login(email, password);
+  Future login({String? userEmail, String? password}) async {
+    // LocNX debug
+    print('===== [UserStore] login() is called');
+    final future = _repository.login(userEmail ?? this.userEmail, password!);
     loginFuture = ObservableFuture(future);
     await future.then((value) async {
       if (value) {
         _repository.saveIsLoggedIn(true);
-        this.isLoggedIn = true;
+        _isLoggedIn = true;
         this.success = true;
       } else {
         print('failed to login');
       }
     }).catchError((e) {
       print(e);
-      this.isLoggedIn = false;
+      _isLoggedIn = false;
       this.success = false;
       throw e;
     });
   }
 
+  @action
   logout() {
-    this.isLoggedIn = false;
+    _isLoggedIn = false;
     _repository.saveIsLoggedIn(false);
   }
 

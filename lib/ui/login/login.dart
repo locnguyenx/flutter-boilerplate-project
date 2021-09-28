@@ -1,19 +1,19 @@
 import 'package:another_flushbar/flushbar_helper.dart';
-import 'package:boilerplate/constants/assets.dart';
-import 'package:boilerplate/data/sharedpref/constants/preferences.dart';
-import 'package:boilerplate/utils/routes/routes.dart';
-import 'package:boilerplate/stores/form/form_store.dart';
-import 'package:boilerplate/stores/theme/theme_store.dart';
-import 'package:boilerplate/utils/device/device_utils.dart';
-import 'package:boilerplate/utils/locale/app_localization.dart';
-import 'package:boilerplate/widgets/app_icon_widget.dart';
-import 'package:boilerplate/widgets/empty_app_bar_widget.dart';
-import 'package:boilerplate/widgets/progress_indicator_widget.dart';
-import 'package:boilerplate/widgets/rounded_button_widget.dart';
-import 'package:boilerplate/widgets/textfield_widget.dart';
+import 'package:flutterapp/constants/assets.dart';
+import 'package:flutterapp/data/sharedpref/constants/preferences.dart';
+import 'package:flutterapp/utils/routes/routes.dart';
+import 'package:flutterapp/stores/form/form_store.dart';
+import 'package:flutterapp/stores/theme/theme_store.dart';
+import 'package:flutterapp/utils/device/device_utils.dart';
+import 'package:flutterapp/utils/locale/app_localization.dart';
+import 'package:flutterapp/widgets/app_icon_widget.dart';
+import 'package:flutterapp/widgets/empty_app_bar_widget.dart';
+import 'package:flutterapp/widgets/progress_indicator_widget.dart';
+import 'package:flutterapp/widgets/rounded_button_widget.dart';
+import 'package:flutterapp/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:provider/provider.dart';
+import 'package:flutterapp/di/components/service_locator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -23,14 +23,14 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   //text controllers:-----------------------------------------------------------
-  TextEditingController _userEmailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-
-  //stores:---------------------------------------------------------------------
-  late ThemeStore _themeStore;
-
+  TextEditingController _userEmailController = TextEditingController(text: 'test3@abc.com'); // for test only
+  TextEditingController _passwordController = TextEditingController(text: '123456'); // for test only
   //focus node:-----------------------------------------------------------------
   late FocusNode _passwordFocusNode;
+  /// NOTE: remmember to dispose all objects above in dispose()
+
+  //stores:---------------------------------------------------------------------
+  final ThemeStore _themeStore = getIt<ThemeStore>();
 
   //stores:---------------------------------------------------------------------
   final _store = FormStore();
@@ -44,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _themeStore = Provider.of<ThemeStore>(context);
+
   }
 
   @override
@@ -192,6 +192,10 @@ class _LoginScreenState extends State<LoginScreen> {
       buttonColor: Colors.orangeAccent,
       textColor: Colors.white,
       onPressed: () async {
+        // Locnx: for testing purpose only, update default value of TextFormField into store
+        _store.setUserId(_userEmailController.text);
+        _store.setPassword(_passwordController.text);
+        // end-Locnx
         if (_store.canLogin) {
           DeviceUtils.hideKeyboard(context);
           _store.login();
@@ -239,6 +243,7 @@ class _LoginScreenState extends State<LoginScreen> {
     _userEmailController.dispose();
     _passwordController.dispose();
     _passwordFocusNode.dispose();
+    _store.dispose(); // dispose MobX Store
     super.dispose();
   }
 }

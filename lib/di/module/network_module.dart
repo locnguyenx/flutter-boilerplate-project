@@ -1,5 +1,5 @@
-import 'package:boilerplate/data/network/constants/endpoints.dart';
-import 'package:boilerplate/data/sharedpref/shared_preference_helper.dart';
+import 'package:flutterapp/data/network/constants/endpoints.dart';
+import 'package:flutterapp/data/sharedpref/shared_preference_helper.dart';
 import 'package:dio/dio.dart';
 
 abstract class NetworkModule {
@@ -16,7 +16,7 @@ abstract class NetworkModule {
       ..options.headers = {'Content-Type': 'application/json; charset=utf-8'}
       ..interceptors.add(LogInterceptor(
         request: true,
-        responseBody: true,
+        responseBody: false, // @TODO set as true to turnon logging
         requestBody: true,
         requestHeader: true,
       ))

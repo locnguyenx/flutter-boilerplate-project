@@ -1,6 +1,6 @@
-import 'package:boilerplate/data/repository.dart';
-import 'package:boilerplate/models/language/Language.dart';
-import 'package:boilerplate/stores/error/error_store.dart';
+import 'package:flutterapp/data/repository.dart';
+import 'package:flutterapp/models/language/Language.dart';
+import 'package:flutterapp/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
 
 part 'language_store.g.dart';

@@ -1,3 +1,9 @@
+/**
+ * locnx
+ * This is just an example how to create an Model that get a record of data from a json map returned by API (DocClient or RestClient)
+ * (optional) create a ModelList of this Model i.e AbcList
+ */
+
 class Post {
   int? userId;
   int? id;

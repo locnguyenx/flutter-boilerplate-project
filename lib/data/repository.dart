@@ -1,13 +1,33 @@
+/// locnx
+/// This is the single place to handle data processing (data service) of the app
+/// To add a new resource (model) into the repository ;
+/// 1. Create a Data Model
+/// 2. a. Create respected Api class (refer to post_api.dart for example) if this is network data
+///    b. Create a DataSource in local/datasources if this is local data
+/// 3. Add new functions here to manipulate data
+/// 4. Add a store to manage the state if needed
+///
+///  DATA ACCESSING FLOW:
+///   UI => Store (Model) => Repository =>
+///     => API (for network)
+///     => XXX_DataSource to update local storage => DB
+///
+/// NOTE:
+/// 1. Repository is aka Storage Service of Service Layer in the pattern
+///    https://suragch.medium.com/flutter-state-management-for-minimalists-4c71a2f2f0c1
+/// 2. Store in MobX: https://mobx.netlify.app/guides/stores
+
 import 'dart:async';
 
-import 'package:boilerplate/data/local/datasources/post/post_datasource.dart';
-import 'package:boilerplate/data/sharedpref/shared_preference_helper.dart';
-import 'package:boilerplate/models/post/post.dart';
-import 'package:boilerplate/models/post/post_list.dart';
+import 'package:flutterapp/data/local/datasources/post/post_datasource.dart';
+import 'package:flutterapp/data/sharedpref/shared_preference_helper.dart';
+import 'package:flutterapp/models/post/post.dart';
+import 'package:flutterapp/models/post/post_list.dart';
 import 'package:sembast/sembast.dart';
 
 import 'local/constants/db_constants.dart';
 import 'network/apis/posts/post_api.dart';
+import 'network/apis/common_api.dart';
 
 class Repository {
   // data source object
@@ -15,18 +35,20 @@ class Repository {
 
   // api objects
   final PostApi _postApi;
+  final CommonApi _commonApi;
 
   // shared pref object
   final SharedPreferenceHelper _sharedPrefsHelper;
 
   // constructor
-  Repository(this._postApi, this._sharedPrefsHelper, this._postDataSource);
+  Repository(this._commonApi, this._postApi, this._sharedPrefsHelper, this._postDataSource);
 
   // Post: ---------------------------------------------------------------------
   Future<PostList> getPosts() async {
     // check to see if posts are present in database, then fetch from database
     // else make a network call to get all posts, store them into database for
     // later use
+
     return await _postApi.getPosts().then((postsList) {
       postsList.posts?.forEach((post) {
         _postDataSource.insert(post);
@@ -68,8 +90,18 @@ class Repository {
 
 
   // Login:---------------------------------------------------------------------
+  /**
+   * LocNX
+   * @TODO: call API to do login
+   */
   Future<bool> login(String email, String password) async {
+    print('===== [Repository] login() is called');
     return await Future.delayed(Duration(seconds: 2), ()=> true);
+    /*
+    return await _commonApi.doLogin(username:email, password:password).then((result) {
+      return result;
+    }).catchError((error) => throw error);
+    */
   }
 
   Future<void> saveIsLoggedIn(bool value) =>
